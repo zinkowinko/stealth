@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>stealth</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #fff;
+    }
+    .navbar {
+      background-color: #1f1f1f;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e84343;
+    }
+    .navbar a {
+      color: #aaa;
+      margin-left: 20px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #bbb;
+      margin-bottom: 30px;
+    }
+    .hero button {
+      background-color: #e84343;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 60px;
+      flex-wrap: wrap;
+    }
+    .card {
+      background-color: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+    .footer {
+      text-align: center;
+      padding: 30px 0;
+      color: #777;
+      font-size: 14px;
+      margin-top: 60px;
+      border-top: 1px solid #333;
+    }
+
+    #games-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    #games-btn:hover {
+      background-color: #0056b3;
+    }
+
+    #proxy-form {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    #url-input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background-color: #1f1f1f;
+      color: #fff;
+    }
+
+    #proxy-form button {
+      background-color: #e84343;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    #proxy-form button:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">stealth</div>
+    <div>
+      <a href="/games">games</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>welcome to stealth</h1>
+    <p>a proxy with community at its core.</p>
+    <button onclick="window.location.href='https://www.zicone.xyz/games.html'">games</button>
+  </div>
+
+  <div id="proxy-form">
+    <form>
+      <input type="text" id="url-input" placeholder="https://example.com" required>
+      <button type="submit">Go</button>
+    </form>
+  </div>
+
+  <div class="features">
+    <div class="card">
+      <h3>play games</h3>
+      <p>play your favorite games unblocked</p>
+    </div>
+    <div class="card">
+      <h3>community focused</h3>
+      <p>join a passionate community</p>
+    </div>
+    <div class="card">
+      <h3>secure & open</h3>
+      <p>stealth is secure.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2025 stealth proxy.
+  </div>
+
+  <script>
+    document.getElementById('proxy-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const url = document.getElementById('url-input').value;
+      const encodedUrl = encodeUrl(url);
+      if (encodedUrl) {
+        window.location.href = '/proxy?url=' + encodedUrl;
+      }
+    });
+
+    function encodeUrl(str) {
+      try {
+        const encodedURIComponent = encodeURIComponent(str);
+        return window.btoa(encodedURIComponent);
+      } catch (e) {
+        console.error('Error encoding the URL', e);
+        alert('There was an issue encoding the URL. Please check the URL format.');
+        return null;
+      }
+    }
+  </script>
+</body>
+</html>

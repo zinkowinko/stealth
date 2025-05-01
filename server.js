@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static('public'));
 
-app.get('/proxy', async (req, res) => {
+app.get('/stealth', async (req, res) => {
     const encodedUrl = req.query.url;
     if (!encodedUrl) {
         return res.status(400).send('Missing URL');
@@ -51,7 +51,7 @@ app.get('/proxy', async (req, res) => {
             }
             const resourceUrl = `${baseUrl}${p2}`;
             const encoded = btoa(resourceUrl);
-            return `${p1}="/proxy?url=${encoded}"`;
+            return `${p1}="/stealth?url=${encoded}"`;
         });
 
         res.send(body);
@@ -61,7 +61,7 @@ app.get('/proxy', async (req, res) => {
     }
 });
 
-app.get('/proxy/resource', async (req, res) => {
+app.get('/stealth/resource', async (req, res) => {
     const encodedUrl = req.query.url;
     if (!encodedUrl) {
         return res.status(400).send('Missing URL');
@@ -93,5 +93,5 @@ app.get('/proxy/resource', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Proxy server running at http://localhost:${PORT}`);
+    console.log(`stealth server running at http://localhost:${PORT}`);
 });

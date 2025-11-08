@@ -313,9 +313,6 @@
           input.focus();
           return alert('Please enter a URL.');
         }
-        if (!isLikelyUrl(url)) {
-          return alert('Please include the protocol (https://) and enter a valid URL.');
-        }
         const encodedUrl = encodeUrl(url);
         if (encodedUrl) {
           window.location.href = '/stealth?url=' + encodedUrl;
@@ -336,6 +333,7 @@
   </script>
 </body>
 </html>
+
 
 
 

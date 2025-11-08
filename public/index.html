@@ -1,340 +1,229 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>stealth</title>
+  <title>MathWonders — interactive math for kids</title>
+  <meta name="description" content="MathWonders helps kids learn math with interactive lessons and practice exercises." />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"EducationalOrganization","name":"MathWonders","url":"https://mathwonders.xyz","description":"Interactive math lessons and exercises for K-12 students","educationalLevel":"K-12"}
+  </script>
   <style>
     :root{
-      --bg: #0f1113;
-      --card: #121316;
-      --muted: #9aa4af;
-      --accent: #e84b4b;
-      --accent-2: #ff7a7a;
-      --glass: rgba(255,255,255,0.03);
-      --radius: 14px;
-      --glass-border: rgba(255,255,255,0.04);
-      --shadow: 0 6px 18px rgba(0,0,0,0.6);
-      --max-width: 1100px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+      --bg:#f6f9fc;
+      --card:#ffffff;
+      --accent:#1e88e5;
+      --muted:#61707a;
+      --radius:14px;
+      --maxw:1100px;
+      --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
     }
-    * { box-sizing: border-box; }
-    html,body { height:100%; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, #071018 0%, var(--bg) 100%);
-      color: #e8eef6;
+      font-family:Inter, "Segoe UI", system-ui, -apple-system, Arial;
+      background:linear-gradient(180deg,#eef6fb 0%,var(--bg) 100%);
+      color:#0b1720;
       -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
       display:flex;
-      align-items:flex-start;
       justify-content:center;
-      padding:32px;
-    }
-    .container{
-      width:100%;
-      max-width: var(--max-width);
       padding:28px;
-      border-radius:18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.03);
     }
-    .navbar {
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+      background:transparent;
+    }
+    header{
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      gap:16px;
-      margin-bottom:28px;
-    }
-    .brand {
-      display:flex;
       align-items:center;
+      gap:16px;
+      margin-bottom:22px;
+    }
+    .brand{
+      display:flex;
       gap:14px;
+      align-items:center;
       text-decoration:none;
       color:inherit;
     }
-    .logo {
-      width:48px;
-      height:48px;
-      border-radius:10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display:grid;
-      place-items:center;
-      font-weight:700;
-      font-family: var(--mono);
-      color:white;
-      box-shadow: 0 6px 18px rgba(232,75,75,0.15), inset 0 -6px 18px rgba(0,0,0,0.15);
+    .logo{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#90caf9);display:grid;place-items:center;color:white;font-weight:700;font-size:20px;
+      box-shadow:0 8px 24px rgba(30,136,229,0.12);
     }
-    .brand h1{
-      margin:0;
-      font-size:18px;
-      letter-spacing: -0.02em;
-    }
-    .nav-actions {
+    h1{margin:0;font-size:26px}
+    header nav{display:flex;gap:12px;align-items:center}
+    .navlink{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--muted);font-weight:600}
+    .navlink.primary{background:var(--accent);color:white}
+    .hero{
+      background:var(--card);
+      padding:28px;
+      border-radius:var(--radius);
+      box-shadow:0 10px 30px rgba(12,24,40,0.06);
       display:flex;
+      gap:24px;
       align-items:center;
-      gap:12px;
+      margin-bottom:20px;
     }
-    .nav-link {
-      color:var(--muted);
-      text-decoration:none;
-      font-size:15px;
-      padding:8px 12px;
-      border-radius:8px;
-    }
-    .nav-link:hover, .nav-link:focus {
-      color: white;
-      background: rgba(255,255,255,0.02);
-      outline:none;
-    }
-    .games-cta{
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.04);
-      padding:8px 14px;
-      border-radius:10px;
-      cursor:pointer;
-      color: white;
-      font-weight:600;
-    }
-    .games-cta:hover { transform: translateY(-2px); }
-    .hero {
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:28px;
-      align-items:center;
-    }
-    .hero-left {
-      padding:18px 10px;
-    }
-    .eyebrow {
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:13px;
-      color: #ffecec;
-      background: rgba(232,75,75,0.12);
-      margin-bottom:14px;
-    }
-    .headline {
-      font-size:40px;
-      line-height:1.02;
-      margin:0 0 12px 0;
-      color: #fff;
-      letter-spacing:-0.02em;
-    }
-    .sub {
-      color:var(--muted);
-      margin:0 0 18px 0;
-      font-size:16px;
-      max-width:58ch;
-    }
-    .cta-row {
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-top:8px;
-    }
-    .primary-btn {
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      border: none;
-      padding:12px 18px;
-      border-radius:12px;
-      color:white;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow: 0 6px 18px rgba(232,75,75,0.14);
-      font-size:15px;
-    }
-    .primary-btn:active { transform: translateY(1px); }
-    .secondary {
-      background: transparent;
-      color: var(--muted);
-      padding:10px 14px;
-      border-radius:10px;
-      border: 1px solid rgba(255,255,255,0.03);
-      cursor:pointer;
-    }
-    .proxy-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: var(--radius);
-      padding:20px;
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-    }
-    .label {
-      display:block;
-      color:var(--muted);
-      margin-bottom:8px;
-      font-size:13px;
-    }
-    .input-row {
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .url-input {
-      flex:1;
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.03);
-      padding:12px 14px;
-      border-radius:10px;
-      color: #e8eef6;
-      font-size:15px;
-      outline:none;
-      transition: box-shadow .12s ease, transform .08s ease;
-    }
-    .url-input::placeholder { color: #7e8891; }
-    .url-input:focus {
-      box-shadow: 0 6px 18px rgba(14, 49, 79, 0.35);
-      transform: translateY(-1px);
-      border-color: rgba(232,75,75,0.6);
-    }
-    .submit-btn{
-      background: linear-gradient(90deg, #0057e8, #2b8cff);
-      border:none;
-      padding:11px 16px;
-      font-weight:700;
-      color:white;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:15px;
-    }
-    .submit-btn[disabled] { opacity:0.6; cursor:not-allowed; transform:none; }
-    .hint {
-      color:var(--muted);
-      font-size:13px;
-      margin-top:10px;
-    }
-    .features {
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-      margin-top:28px;
-    }
-    .feature {
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.02);
-      text-align:center;
-    }
-    .feature h4 { margin:6px 0 8px 0; font-size:16px; }
-    .feature p { margin:0; color:var(--muted); font-size:14px; }
-    .footer {
-      margin-top:26px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      color:var(--muted);
-      font-size:13px;
-      border-top:1px solid rgba(255,255,255,0.02);
-      padding-top:18px;
-    }
-    @media (max-width:1000px){
-      .hero { grid-template-columns: 1fr; }
-      .features { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width:640px){
-      body { padding:18px; }
-      .container { padding:18px; }
-      .features { grid-template-columns: 1fr; }
-      .headline { font-size:28px; }
+    .hero-left{flex:1}
+    .tag{display:inline-block;padding:6px 10px;background:rgba(30,136,229,0.08);color:var(--accent);border-radius:999px;font-weight:700;margin-bottom:12px}
+    .lead{font-size:18px;color:var(--muted);margin-top:10px}
+    .cta-row{margin-top:16px;display:flex;gap:12px}
+    .btn{padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+    .btn.primary{background:var(--accent);color:white}
+    .btn.ghost{background:transparent;border:1px solid rgba(11,23,32,0.06);color:var(--muted)}
+    .hero-right{width:320px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(12,24,40,0.04);border:1px solid rgba(12,24,40,0.03)}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+    main{display:flex;flex-direction:column;gap:18px}
+    .section{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+    .lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .lesson-card{background:var(--card);padding:14px;border-radius:10px;border:1px solid rgba(11,23,32,0.03)}
+    .lesson-card h4{margin:6px 0}
+    footer{color:var(--muted);font-size:13px;margin-top:20px}
+    .teacher{background:linear-gradient(180deg,#fff,#f7fbff);padding:12px;border-radius:10px;border:1px solid rgba(30,136,229,0.06)}
+    input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(11,23,32,0.06);font-size:14px}
+    .small{font-size:13px;color:var(--muted)}
+    @media (max-width:940px){
+      .section{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .hero-right{width:100%}
     }
   </style>
 </head>
 <body>
-  <main class="container" role="main">
-    <header class="navbar" role="banner">
-      <a class="brand" href="/" aria-label="stealth home">
+  <div class="wrap">
+    <header>
+      <a class="brand" href="/">
+        <div class="logo">MW</div>
         <div>
-          <h1>stealth</h1>
-          <div style="font-size:12px;color:var(--muted);margin-top:4px">community proxy</div>
+          <h1>MathWonders</h1>
+          <div class="small">Interactive math lessons for K–12</div>
         </div>
       </a>
+      <nav>
+        <a class="navlink" href="#lessons">Lessons</a>
+        <a class="navlink" href="#teachers">For Teachers</a>
+        <a class="navlink primary" href="#contact">Get Access</a>
+      </nav>
     </header>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-left">
-        <span class="eyebrow">play • browse • share</span>
-        <h2 id="hero-title" class="headline">welcome to stealth — browse freely, together.</h2>
-        <p class="sub">a lightweight, community-first proxy that focuses on reliability and preserving the web’s interactivity. play unblocked games, join the community, and browse securely.</p>
-        <div class="cta-row" role="group" aria-label="primary actions">
-          <button class="secondary" onclick="alert('Join the community on Discord! discord.gg/')">Community</button>
-        </div>
-        <div class="features" aria-hidden="true">
-          <div class="feature">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h4>play games</h4>
-            <p>fast, low-latency access for web games and apps.</p>
-          </div>
-          <div class="feature">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h4>community</h4>
-            <p>user-focused features and shared playlists.</p>
-          </div>
-          <div class="feature">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22a7 7 0 100-14 7 7 0 000 14z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h4>open & secure</h4>
-            <p>built with transparency and privacy in mind.</p>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-left">
+          <div class="tag">Free • Curriculum-aligned</div>
+          <h2 id="hero-title">Make math fun and understandable</h2>
+          <p class="lead">Short, interactive lessons and practice problems designed for classroom and home use. Works on tablets and Chromebooks.</p>
+          <div class="cta-row">
+            <button class="btn primary" onclick="location.href='#lessons'">Start Learning</button>
+            <button class="btn ghost" onclick="location.href='#teachers'">Teacher Resources</button>
           </div>
         </div>
-      </div>
-      <aside class="proxy-card" aria-labelledby="proxy-title" role="region">
-        <h3 id="proxy-title" style="margin:0 0 10px 0">Open a site in stealth</h3>
-        <p class="label">enter a full url (including https://)</p>
-        <form id="proxy-form" novalidate>
-          <div class="input-row">
-            <input id="url-input" class="url-input" type="url" name="url" placeholder="https://example.com" inputmode="url" aria-label="URL to open in proxy" required />
-            <button id="proxy-go" class="submit-btn" type="submit">Go</button>
+        <div class="hero-right">
+          <div class="card">
+            <strong>Quick facts</strong>
+            <ul style="margin:10px 0 0 18px;color:var(--muted);padding:0">
+              <li>Standards-aligned lessons</li>
+              <li>Printable worksheets</li>
+              <li>No student login required</li>
+            </ul>
+            <div style="margin-top:12px" class="small">Contact: <a href="mailto:info@mathwonders.xyz">info@mathwonders.xyz</a></div>
           </div>
-          <div class="hint">tip: you can paste a link from any site. We'll encode it and send you to <code style="background:rgba(255,255,255,0.02);padding:2px 6px;border-radius:6px;font-family:var(--mono);">/stealth?url=...</code></div>
-        </form>
-      </aside>
-    </section>
-    <footer class="footer" role="contentinfo">
-      <div>© 2025 stealth proxy.</div>
-      <div style="color:var(--muted)">made with ❤️</div>
-    </footer>
-  </main>
+        </div>
+      </section>
+
+      <section id="lessons" class="section">
+        <div>
+          <h3>Featured lessons</h3>
+          <p class="small">Click a lesson to open it. Lessons are short, focused, and come with practice problems.</p>
+
+          <div class="lessons" id="lessons-list">
+            <div class="lesson-card">
+              <h4><a href="lessons/addition-basics.html">Addition Basics</a></h4>
+              <p class="small">K-2 • Practice sums up to 20</p>
+            </div>
+            <div class="lesson-card">
+              <h4><a href="lessons/subtraction-basics.html">Subtraction Basics</a></h4>
+              <p class="small">K-2 • Subtracting within 20</p>
+            </div>
+            <div class="lesson-card">
+              <h4><a href="lessons/fractions-intro.html">Intro to Fractions</a></h4>
+              <p class="small">3-5 • Fractions using circles and bars</p>
+            </div>
+          </div>
+
+          <div style="margin-top:14px">
+            <button class="btn primary" onclick="location.href='lessons/lesson-sample.html'">See a lesson sample</button>
+          </div>
+        </div>
+
+        <aside>
+          <div class="teacher">
+            <strong>Teacher resources</strong>
+            <p class="small" style="margin-top:8px">Printable worksheets and lesson plans. Use the lessons in class or assign them as practice. Download answer keys from each lesson page.</p>
+            <div style="margin-top:10px">
+              <a class="navlink" href="#teachers">View materials</a>
+            </div>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="card">
+            <strong>Privacy</strong>
+            <p class="small" style="margin-top:8px">We do not collect student data. No logins required. Contact info for educators available.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section id="teachers" style="display:flex;gap:20px;align-items:flex-start">
+        <div style="flex:1">
+          <h3>Materials for teachers</h3>
+          <p class="small">Each lesson includes objectives, estimated time, materials, and printable worksheets.</p>
+          <ul class="small" style="margin-left:18px">
+            <li>Standards mapping (Common Core)</li>
+            <li>Step-by-step teaching notes</li>
+            <li>Formative assessment suggestions</li>
+          </ul>
+        </div>
+
+        <aside style="width:340px">
+          <div class="card">
+            <strong>Request classroom access</strong>
+            <form id="signup-form" onsubmit="event.preventDefault(); alert('Thanks! Email us at info@mathwonders.xyz to request institutional access.');">
+              <label class="small" style="display:block;margin-bottom:6px">Your school or organization</label>
+              <input name="org" placeholder="School name or district" />
+              <label class="small" style="display:block;margin:8px 0 6px">Your email</label>
+              <input name="email" type="email" placeholder="teacher@example.com" />
+              <div style="margin-top:10px">
+                <button class="btn primary" type="submit">Request access</button>
+              </div>
+            </form>
+            <div class="small" style="margin-top:10px">Alternatively email <a href="mailto:info@mathwonders.xyz">info@mathwonders.xyz</a></div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="contact" class="section" style="grid-template-columns:1fr">
+        <div class="card">
+          <h3>Contact & transparency</h3>
+          <p class="small">We aim to make high-quality materials freely available to teachers and families. If you have a partnership or need accommodations, reach out.</p>
+          <div style="display:flex;gap:12px;margin-top:12px">
+            <a class="navlink" href="privacy.html">Privacy policy</a>
+            <a class="navlink" href="terms.html">Terms</a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> MathWonders • Built for educators
+      </footer>
+    </main>
+  </div>
+
   <script>
-    (function(){
-      const form = document.getElementById('proxy-form');
-      const input = document.getElementById('url-input');
-      const goBtn = document.getElementById('proxy-go');
-      function isLikelyUrl(s) {
-        return /^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(s.trim());
-      }
-      form.addEventListener('submit', function(e){
-        e.preventDefault();
-        const url = input.value.trim();
-        if (!url) {
-          input.focus();
-          return alert('Please enter a URL.');
-        }
-        const encodedUrl = encodeUrl(url);
-        if (encodedUrl) {
-          window.location.href = '/stealth?url=' + encodedUrl;
-        }
-      });
-      function encodeUrl(str) {
-        try {
-          const encodedURIComponent = encodeURIComponent(str);
-          return window.btoa(encodedURIComponent);
-        } catch (e) {
-          console.error('Error encoding the URL', e);
-          alert('There was an issue encoding the URL. Please check the URL format.');
-          return null;
-        }
-      }
-      input.focus();
-    })();
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
-
-
-
-
-

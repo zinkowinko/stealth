@@ -1,183 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>stealth</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>stealth — community proxy</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
-      color: #fff;
+    :root{
+      --bg: #0f1113;
+      --card: #121316;
+      --muted: #9aa4af;
+      --accent: #e84b4b;
+      --accent-2: #ff7a7a;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+      --glass-border: rgba(255,255,255,0.04);
+      --shadow: 0 6px 18px rgba(0,0,0,0.6);
+      --max-width: 1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html,body { height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #071018 0%, var(--bg) 100%);
+      color: #e8eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:32px;
+    }
+    .container{
+      width:100%;
+      max-width: var(--max-width);
+      padding:28px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
     }
     .navbar {
-      background-color: #1f1f1f;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:28px;
     }
-    .navbar .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #e84343;
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      text-decoration:none;
+      color:inherit;
     }
-    .navbar a {
-      color: #aaa;
-      margin-left: 20px;
-      text-decoration: none;
-      font-size: 14px;
+    .logo {
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      font-family: var(--mono);
+      color:white;
+      box-shadow: 0 6px 18px rgba(232,75,75,0.15), inset 0 -6px 18px rgba(0,0,0,0.15);
     }
-    .hero {
-      text-align: center;
-      padding: 80px 20px;
+    .brand h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing: -0.02em;
     }
-    .hero h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
+    .nav-actions {
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
-    .hero p {
-      font-size: 18px;
-      color: #bbb;
-      margin-bottom: 30px;
+    .nav-link {
+      color:var(--muted);
+      text-decoration:none;
+      font-size:15px;
+      padding:8px 12px;
+      border-radius:8px;
     }
-    .hero button {
-      background-color: #e84343;
+    .nav-link:hover, .nav-link:focus {
       color: white;
+      background: rgba(255,255,255,0.02);
+      outline:none;
+    }
+    .games-cta{
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.04);
+      padding:8px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      color: white;
+      font-weight:600;
+    }
+    .games-cta:hover { transform: translateY(-2px); }
+    .hero {
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
+    .hero-left {
+      padding:18px 10px;
+    }
+    .eyebrow {
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:13px;
+      color: #ffecec;
+      background: rgba(232,75,75,0.12);
+      margin-bottom:14px;
+    }
+    .headline {
+      font-size:40px;
+      line-height:1.02;
+      margin:0 0 12px 0;
+      color: #fff;
+      letter-spacing:-0.02em;
+    }
+    .sub {
+      color:var(--muted);
+      margin:0 0 18px 0;
+      font-size:16px;
+      max-width:58ch;
+    }
+    .cta-row {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:8px;
+    }
+    .primary-btn {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
       border: none;
-      padding: 12px 25px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
+      padding:12px 18px;
+      border-radius:12px;
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(232,75,75,0.14);
+      font-size:15px;
+    }
+    .primary-btn:active { transform: translateY(1px); }
+    .secondary {
+      background: transparent;
+      color: var(--muted);
+      padding:10px 14px;
+      border-radius:10px;
+      border: 1px solid rgba(255,255,255,0.03);
+      cursor:pointer;
+    }
+    .proxy-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: var(--radius);
+      padding:20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+    .label {
+      display:block;
+      color:var(--muted);
+      margin-bottom:8px;
+      font-size:13px;
+    }
+    .input-row {
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .url-input {
+      flex:1;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.03);
+      padding:12px 14px;
+      border-radius:10px;
+      color: #e8eef6;
+      font-size:15px;
+      outline:none;
+      transition: box-shadow .12s ease, transform .08s ease;
+    }
+    .url-input::placeholder { color: #7e8891; }
+    .url-input:focus {
+      box-shadow: 0 6px 18px rgba(14, 49, 79, 0.35);
+      transform: translateY(-1px);
+      border-color: rgba(232,75,75,0.6);
+    }
+    .submit-btn{
+      background: linear-gradient(90deg, #0057e8, #2b8cff);
+      border:none;
+      padding:11px 16px;
+      font-weight:700;
+      color:white;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .submit-btn[disabled] { opacity:0.6; cursor:not-allowed; transform:none; }
+    .hint {
+      color:var(--muted);
+      font-size:13px;
+      margin-top:10px;
     }
     .features {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 60px;
-      flex-wrap: wrap;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:28px;
     }
-    .card {
-      background-color: #1f1f1f;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
-      text-align: center;
+    .feature {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      padding:14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.02);
+      text-align:center;
     }
+    .feature h4 { margin:6px 0 8px 0; font-size:16px; }
+    .feature p { margin:0; color:var(--muted); font-size:14px; }
     .footer {
-      text-align: center;
-      padding: 30px 0;
-      color: #777;
-      font-size: 14px;
-      margin-top: 60px;
-      border-top: 1px solid #333;
+      margin-top:26px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      color:var(--muted);
+      font-size:13px;
+      border-top:1px solid rgba(255,255,255,0.02);
+      padding-top:18px;
     }
-
-    #games-btn {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      margin-top: 10px;
-      font-size: 16px;
+    @media (max-width:1000px){
+      .hero { grid-template-columns: 1fr; }
+      .features { grid-template-columns: repeat(2, 1fr); }
     }
-
-    #games-btn:hover {
-      background-color: #0056b3;
-    }
-
-    #proxy-form {
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    #url-input {
-      padding: 10px;
-      font-size: 16px;
-      width: 300px;
-      border-radius: 5px;
-      border: 1px solid #333;
-      background-color: #1f1f1f;
-      color: #fff;
-    }
-
-    #proxy-form button {
-      background-color: #e84343;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-
-    #proxy-form button:hover {
-      background-color: #c0392b;
+    @media (max-width:640px){
+      body { padding:18px; }
+      .container { padding:18px; }
+      .features { grid-template-columns: 1fr; }
+      .headline { font-size:28px; }
     }
   </style>
 </head>
 <body>
-  <div class="navbar">
-    <div class="logo">stealth</div>
-    <div>
-      <a href="/reading.html">games</a>
-    </div>
-  </div>
-
-  <div class="hero">
-    <h1>welcome to stealth</h1>
-    <p>a proxy with community at its core.</p>
-    <button onclick="window.location.href='https://zones.cfd/reading.html'">games</button>
-  </div>
-
-  <div id="proxy-form">
-    <form>
-      <input type="text" id="url-input" placeholder="https://example.com" required>
-      <button type="submit">Go</button>
-    </form>
-  </div>
-
-  <div class="features">
-    <div class="card">
-      <h3>play games</h3>
-      <p>play your favorite games unblocked</p>
-    </div>
-    <div class="card">
-      <h3>community focused</h3>
-      <p>join a passionate community</p>
-    </div>
-    <div class="card">
-      <h3>secure & open</h3>
-      <p>stealth is secure.</p>
-    </div>
-  </div>
-
-  <div class="footer">
-    © 2025 stealth proxy.
-  </div>
-
+  <main class="container" role="main">
+    <header class="navbar" role="banner">
+      <a class="brand" href="/" aria-label="stealth home">
+        <div class="logo" aria-hidden="true">S</div>
+        <div>
+          <h1>stealth</h1>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">community proxy</div>
+        </div>
+      </a>
+      <nav class="nav-actions" aria-label="primary">
+        <a class="nav-link" href="/reading.html">Games</a>
+        <button class="games-cta" onclick="window.location.href='https://zones.cfd/reading.html'">Play Now</button>
+      </nav>
+    </header>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-left">
+        <span class="eyebrow">Play • Browse • Share</span>
+        <h2 id="hero-title" class="headline">Welcome to stealth — browse freely, together.</h2>
+        <p class="sub">A lightweight, community-first proxy that focuses on reliability and preserving the web’s interactivity. Play unblocked games, join the community, and browse securely.</p>
+        <div class="cta-row" role="group" aria-label="primary actions">
+          <button class="primary-btn" onclick="window.location.href='/reading.html'">Browse Games</button>
+          <button class="secondary" onclick="alert('Join the community on Discord (link placeholder)')">Community</button>
+        </div>
+        <div class="features" aria-hidden="true">
+          <div class="feature">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h4>Play games</h4>
+            <p>Fast, low-latency access for web games and now.gg style apps.</p>
+          </div>
+          <div class="feature">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h4>Community</h4>
+            <p>User-focused features and shared playlists.</p>
+          </div>
+          <div class="feature">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22a7 7 0 100-14 7 7 0 000 14z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h4>Open & Secure</h4>
+            <p>Built with transparency and privacy in mind.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="proxy-card" aria-labelledby="proxy-title" role="region">
+        <h3 id="proxy-title" style="margin:0 0 10px 0">Open a site in stealth</h3>
+        <p class="label">Enter a full URL (including https://)</p>
+        <form id="proxy-form" novalidate>
+          <div class="input-row">
+            <input id="url-input" class="url-input" type="url" name="url" placeholder="https://example.com" inputmode="url" aria-label="URL to open in proxy" required />
+            <button id="proxy-go" class="submit-btn" type="submit">Go</button>
+          </div>
+          <div class="hint">Tip: you can paste a link from any site. We'll encode it and send you to <code style="background:rgba(255,255,255,0.02);padding:2px 6px;border-radius:6px;font-family:var(--mono);">/stealth?url=...</code></div>
+        </form>
+      </aside>
+    </section>
+    <footer class="footer" role="contentinfo">
+      <div>© 2025 stealth proxy.</div>
+      <div style="color:var(--muted)">Made with ❤️ — <a href="/privacy.html" style="color:var(--muted); text-decoration:underline;">Privacy</a></div>
+    </footer>
+  </main>
   <script>
-    document.getElementById('proxy-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const url = document.getElementById('url-input').value;
-      const encodedUrl = encodeUrl(url);
-      if (encodedUrl) {
-        window.location.href = '/stealth?url=' + encodedUrl;
+    (function(){
+      const form = document.getElementById('proxy-form');
+      const input = document.getElementById('url-input');
+      const goBtn = document.getElementById('proxy-go');
+      function isLikelyUrl(s) {
+        return /^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(s.trim());
       }
-    });
-
-    function encodeUrl(str) {
-      try {
-        const encodedURIComponent = encodeURIComponent(str);
-        return window.btoa(encodedURIComponent);
-      } catch (e) {
-        console.error('Error encoding the URL', e);
-        alert('There was an issue encoding the URL. Please check the URL format.');
-        return null;
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const url = input.value.trim();
+        if (!url) {
+          input.focus();
+          return alert('Please enter a URL.');
+        }
+        if (!isLikelyUrl(url)) {
+          return alert('Please include the protocol (https://) and enter a valid URL.');
+        }
+        const encodedUrl = encodeUrl(url);
+        if (encodedUrl) {
+          window.location.href = '/stealth?url=' + encodedUrl;
+        }
+      });
+      function encodeUrl(str) {
+        try {
+          const encodedURIComponent = encodeURIComponent(str);
+          return window.btoa(encodedURIComponent);
+        } catch (e) {
+          console.error('Error encoding the URL', e);
+          alert('There was an issue encoding the URL. Please check the URL format.');
+          return null;
+        }
       }
-    }
+      input.focus();
+    })();
   </script>
 </body>
 </html>

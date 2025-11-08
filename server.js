@@ -54,42 +54,43 @@ app.get('/stealth', async (req, res) => {
             return `${p1}="/stealth?url=${encoded}"`;
         });
 
+        // Auto navigation injection
         body += `
-        <script>
-        document.addEventListener('click', e => {
-            let el = e.target.closest('a');
-            if (el && el.getAttribute('href')) {
-                e.preventDefault();
-                let link = el.href;
-                let encoded = btoa(encodeURIComponent(link));
-                window.location.href = '/stealth?url=' + encoded;
-            }
-        });
-        document.addEventListener('submit', e => {
-            let form = e.target;
-            if (form && form.action) {
-                e.preventDefault();
-                let action = form.action;
-                let method = form.method || 'GET';
-                if (method.toUpperCase() === 'GET') {
-                    let params = new URLSearchParams(new FormData(form)).toString();
-                    let url = action + (action.includes('?') ? '&' : '?') + params;
-                    let encoded = btoa(encodeURIComponent(url));
-                    window.location.href = '/stealth?url=' + encoded;
-                } else {
-                    fetch(action, {
-                        method: method,
-                        body: new FormData(form),
-                        redirect: 'follow'
-                    }).then(r => r.text()).then(t => {
-                        document.open();
-                        document.write(t);
-                        document.close();
-                    });
-                }
-            }
-        });
-        </script>
+<script>
+document.addEventListener('click', e => {
+    let el = e.target.closest('a');
+    if (el && el.getAttribute('href')) {
+        e.preventDefault();
+        let link = el.href;
+        let encoded = btoa(encodeURIComponent(link));
+        window.location.href = '/stealth?url=' + encoded;
+    }
+});
+document.addEventListener('submit', e => {
+    let form = e.target;
+    if (form && form.action) {
+        e.preventDefault();
+        let action = form.action;
+        let method = form.method || 'GET';
+        if (method.toUpperCase() === 'GET') {
+            let params = new URLSearchParams(new FormData(form)).toString();
+            let url = action + (action.includes('?') ? '&' : '?') + params;
+            let encoded = btoa(encodeURIComponent(url));
+            window.location.href = '/stealth?url=' + encoded;
+        } else {
+            fetch(action, {
+                method: method,
+                body: new FormData(form),
+                redirect: 'follow'
+            }).then(r => r.text()).then(t => {
+                document.open();
+                document.write(t);
+                document.close();
+            });
+        }
+    }
+});
+</script>
         `;
 
         res.send(body);
@@ -131,5 +132,5 @@ app.get('/stealth/resource', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(\`stealth server running at http://localhost:\${PORT}\`);
+    console.log(`stealth server running at http://localhost:${PORT}`);
 });

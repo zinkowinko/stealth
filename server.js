@@ -4,22 +4,28 @@ const path = require("path");
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname));
 
 const STOCK_FILE = "./stock.json";
 
-app.get("/api/stock", (req, res) => {
+app.get("/stock", (req, res) => {
   const data = JSON.parse(fs.readFileSync(STOCK_FILE));
   res.json({ stock: data.stock });
 });
 
-app.post("/api/buy", (req, res) => {
+app.post("/buy", (req, res) => {
   const data = JSON.parse(fs.readFileSync(STOCK_FILE));
-  if (data.stock <= 0) return res.status(400).json({ error: "Out of stock" });
+
+  if (data.stock <= 0) {
+    return res.status(400).json({ error: "Out of stock" });
+  }
+
   data.stock -= 1;
   fs.writeFileSync(STOCK_FILE, JSON.stringify(data, null, 2));
-  res.json({ stock: data.stock });
+
+  res.json({ success: true, stock: data.stock });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
+});

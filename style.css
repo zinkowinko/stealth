@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: url("background.gif") center/cover no-repeat fixed;
+  overflow: hidden;
+}
+
+#enter {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: opacity 0.6s ease;
+}
+
+#enter span {
+  color: white;
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  padding: 35px 45px;
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+  min-width: 300px;
+  opacity: 0;
+}
+
+.card.show {
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.name {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.typing {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 6px;
+  height: 18px;
+}
+
+.cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 1s steps(2, start) infinite;
+  opacity: 0.9;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.socials {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.socials a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.socials a:hover {
+  opacity: 1;
+}
+
+audio {
+  display: none;
+}

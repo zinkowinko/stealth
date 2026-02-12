@@ -7,7 +7,7 @@
 
 body {
   height: 100vh;
-  background: url("./drac/jay.gif") center/cover no-repeat fixed;
+  background: url("/drac/jay.gif") center/cover no-repeat fixed;
   overflow: hidden;
 }
 

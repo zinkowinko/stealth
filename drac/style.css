@@ -7,7 +7,7 @@
 
 body {
   height: 100vh;
-  background: url("kitten-cat.gif") center/cover no-repeat fixed;
+  background: url("./drac/kitten-cat.gif") center/cover no-repeat fixed;
   overflow: hidden;
 }
 

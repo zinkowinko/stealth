@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>drac</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="enter">
+  <span>click to enter!!!</span>
+</div>
+
+<audio id="music" loop>
+  <source src="remix.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <div class="card">
+    <div class="name">drac</div>
+
+    <div class="typing">
+      <span id="typing"></span><span class="cursor">|</span>
+    </div>
+
+    <div class="socials">
+      <a href="https://discord.com/users/1451009528421286000" target="_blank">discord</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const enter = document.getElementById("enter");
+const music = document.getElementById("music");
+
+const text = [
+  "bacon burger",
+  "and a large fry",
+  "with a frappe",
+  "and 2 cookies cus im special"
+];
+
+let i = 0;
+let j = 0;
+let current = "";
+let deleting = false;
+const el = document.getElementById("typing");
+
+const TYPE_SPEED = 140;
+const DELETE_SPEED = 90;
+const HOLD_TIME = 1000;
+let started = false;
+
+enter.onclick = () => {
+  enter.style.opacity = "0";
+  setTimeout(() => enter.remove(), 600);
+
+  document.querySelector(".card").classList.add("show");
+
+  started = true;
+  type();
+
+  music.volume = 0.6;
+  music.play();
+};
+
+function type() {
+  if (!started) return;
+
+  if (!deleting && j <= text[i].length) {
+    current = text[i].slice(0, j++);
+    el.textContent = current;
+
+    if (j === text[i].length) {
+      setTimeout(() => deleting = true, HOLD_TIME);
+    }
+  } 
+  else if (deleting && j >= 0) {
+    current = text[i].slice(0, j--);
+    el.textContent = current;
+
+    if (j === 0) {
+      deleting = false;
+      i = (i + 1) % text.length;
+    }
+  }
+
+  setTimeout(type, deleting ? DELETE_SPEED : TYPE_SPEED);
+}
+</script>
+
+</body>
+</html>
